@@ -8,7 +8,7 @@ public class VillagePlayer {
 	public VillagePlayer() {
 		this.playerX = 0;
 		this.playerZ = 0;
-		this.ActionPoints = 100;
+		this.ActionPoints = 60;
 	}
 	
 	public int getActionPoints() {

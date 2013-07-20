@@ -15,6 +15,8 @@ public class Village extends JavaPlugin {
 	public void onEnable() {
 		getServer().getPluginManager().registerEvents(
 				new VillagePlayerListener(), this);
+		// FIXME
+		// getCommand("pa").setExecutor(new PlayerCommand());
 		RegisteredPlayers = new HashMap<String, VillagePlayer>();
 	}
 	

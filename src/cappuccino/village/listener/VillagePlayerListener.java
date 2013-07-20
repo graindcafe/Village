@@ -5,6 +5,8 @@ import java.util.HashMap;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.entity.FoodLevelChangeEvent;
+import org.bukkit.event.player.PlayerItemConsumeEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 
@@ -29,26 +31,38 @@ public class VillagePlayerListener implements Listener {
 		final Player player = event.getPlayer();
 		final HashMap<String, VillagePlayer> rp = Village.getRegisterdPlayers();
 		
-		if (rp.get(player.getName()).getPlayerX() == 0
-				&& rp.get(player.getName()).getPlayerZ() == 0) {
-			rp.get(player.getName()).setPlayerX(
-					player.getLocation().getBlockX());
-			rp.get(player.getName()).setPlayerZ(
-					player.getLocation().getBlockZ());
+		if (rp.get(player.getName()).getActionPoints() <= 0)
+			player.teleport(player.getLocation());
+		else {
+			if (!(player.getLocation().getBlockX() == rp.get(player.getName())
+					.getPlayerX())
+					|| !(player.getLocation().getBlockZ() == rp.get(
+							player.getName()).getPlayerZ())) {
+				rp.get(player.getName()).setPlayerX(
+						player.getLocation().getBlockX());
+				rp.get(player.getName()).setPlayerZ(
+						player.getLocation().getBlockZ());
+				
+				rp.get(player.getName()).setActionPoints(
+						rp.get(player.getName()).getActionPoints() - 1);
+				if (rp.get(player.getName()).getActionPoints() % 6 == 0)
+					player.setFoodLevel(player.getFoodLevel() - 2);
+				
+			}
 		}
+	}
+	
+	@EventHandler
+	public void PlayerItemConsumeEvent(final PlayerItemConsumeEvent event) {
+		final Player player = event.getPlayer();
+		final HashMap<String, VillagePlayer> rp = Village.getRegisterdPlayers();
 		
-		if (!(player.getLocation().getBlockX() == rp.get(player.getName())
-				.getPlayerX())
-				|| !(player.getLocation().getBlockZ() == rp.get(
-						player.getName()).getPlayerZ())) {
-			rp.get(player.getName()).setPlayerX(
-					player.getLocation().getBlockX());
-			rp.get(player.getName()).setPlayerZ(
-					player.getLocation().getBlockZ());
-			
-			player.setFoodLevel(player.getFoodLevel() - 1);
-			if (player.getFoodLevel() <= 5)
-				player.setFoodLevel(player.getFoodLevel() + 10);
-		}
+		rp.get(player.getName()).setActionPoints(60);
+		player.setFoodLevel(20);
+	}
+	
+	@EventHandler
+	public void PlayerFoodLevelChangeEvent(final FoodLevelChangeEvent event) {
+		event.setCancelled(true);
 	}
 }
