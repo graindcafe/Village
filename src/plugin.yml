@@ -1,5 +1,5 @@
 name: Village
-main: graindcafe.village.Village
+main: cappuccino.village.Village
 version: 0.0.1
 commands:
 permissions:
