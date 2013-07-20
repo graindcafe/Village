@@ -1,0 +1,6 @@
+name: Village
+main: graindcafe.village.Village
+version: 0.0.1
+commands:
+permissions:
+    
