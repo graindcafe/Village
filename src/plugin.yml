@@ -1,6 +1,9 @@
 name: Village
-main: cappuccino.village.Village
+main: cappuccino.village.VillagePlugin
 version: 0.0.1
 commands:
+    village:
+            description: new, join, list
+            usage: /village new | join <name> | list
 permissions:
     
